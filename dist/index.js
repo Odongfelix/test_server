@@ -26,7 +26,7 @@ server.get('/', (req, res) => {
     res.send('Hello getter.');
 });
 server.get('/save-user', (req, res) => {
-    saveUser(1, 2).then(() => {
+    saveUser('odong@1lix', 'felix').then(() => {
         res.send('saved');
     });
 });

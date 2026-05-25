@@ -17,7 +17,7 @@ server.get('/', (req, res) => {
 
 server.get('/save-user', (req, res) => {
 
-    saveUser(1 as unknown as string, 2 as unknown as string).then(() => {
+    saveUser('odong@1lix','felix').then(() => {
         res.send('saved')
     })
 })
