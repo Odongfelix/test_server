@@ -1,5 +1,6 @@
 import e from 'express'
 import dotenv from "dotenv";
+import {query} from './db';
 
 dotenv.config();
 
@@ -15,12 +16,11 @@ server.get('/', (req, res) => {
 })
 
 server.get('/save-user', (req, res) => {
-    saveUser('odong@gmail.com', 'felix').then(() => {
+
+    saveUser(1 as unknown as string, 2 as unknown as string).then(() => {
         res.send('saved')
     })
 })
-
-import {query} from './db';
 
 // Define an interface for the expected row structure
 interface User {
@@ -71,17 +71,9 @@ async function saveUser(email: string, name: string) {
         // 4. Execute the query with type safety
         const result = await query<User>(insertQuery, values);
 
-        const newUser = result.rows[0];
-        console.log('✨ User successfully saved to database!');
-        console.log(`ID: ${newUser.id} | Name: ${newUser.name} | Email: ${newUser.email}`);
-
-        return newUser;
+        return result.rows[0];
     } catch (error: any) {
         // Handle unique constraint violations (e.g., trying to insert the same email twice)
-        if (error.code === '23505') {
-            console.error('❌ Error: A user with this email already exists.');
-        } else {
-            console.error('❌ Error saving user:', error);
-        }
+       console.error(error);
     }
 }
